@@ -13,5 +13,8 @@
       "email": "juanca.med@gmail.com"
     }
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "glob": "^7.1.1"
+  }
 }
