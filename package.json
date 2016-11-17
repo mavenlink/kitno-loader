@@ -1,0 +1,17 @@
+{
+  "name": "kitno-loader",
+  "version": "0.0.0",
+  "description": "Killing in the namespace of. Stop using the global namespace in favor of modules.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Juan Carlos Medina <juanca.med@gmail.com>",
+  "contributors": [
+    {
+      "name": "Juan Carlos Medina",
+      "email": "juanca.med@gmail.com"
+    }
+  ],
+  "license": "MIT"
+}
