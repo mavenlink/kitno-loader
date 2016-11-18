@@ -1,5 +1,5 @@
-import Loader from './loader.coffee'
+Loader = require './loader.coffee'
 
 class KitnoLoader extends Loader
 
-export default KitnoLoader
+module.exports = KitnoLoader

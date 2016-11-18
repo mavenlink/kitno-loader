@@ -1,5 +1,5 @@
-import Loaders from 'loaders'
+Loaders = require 'loaders'
 
 class Loader extends Loaders
 
-export default Loader
+module.exports = Loader
