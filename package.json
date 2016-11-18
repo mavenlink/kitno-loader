@@ -4,7 +4,7 @@
   "description": "Killing in the namespace of. Stop using the global namespace in favor of modules.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine test/index.js"
   },
   "author": "Juan Carlos Medina <juanca.med@gmail.com>",
   "contributors": [
