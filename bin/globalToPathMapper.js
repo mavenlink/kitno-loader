@@ -20,7 +20,7 @@ const stats = files.reduce((stats, filePath) => {
       // Not sure why but a lot of CoffeeScript files raise:
       // - `TypeError: Cannot read property 'Symbol(Symbol.iterator)' of null`
       const [_, actualClass] = /^class\s+(\S+)/.exec(source);
-      stats[actualClass] = filePath;
+      stats[actualClass] = fs.realpathSync(filePath);
     } catch(error) {
       console.log(`Something went wrong parsing ${filePath}:\n${error}`);
     }
