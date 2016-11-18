@@ -10,6 +10,10 @@ Inspired from the original [Killing In The Namespace Of](https://github.com/mave
 - Specify interesting namespaces to identify
 - Collect namespace -> file path
 
+```
+./bin/globalToPathMapper.js app/**/*.coffee
+```
+
 ### Second Pass
 
 - For each namespace, use JavaScript module
