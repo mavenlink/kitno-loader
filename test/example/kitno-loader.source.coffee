@@ -1,0 +1,1 @@
+class KitnoLoader extends Loaders
