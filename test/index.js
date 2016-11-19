@@ -21,11 +21,11 @@ const transform = (resourcePath) => {
 it('parses test/kitno-loader.coffee', () => {
   const kitnoLoaderSourcePath = 'test/example/kitno-loader.source.coffee';
   const kitnoLoaderOutput = fs.readFileSync('test/example/kitno-loader.output.coffee');
-  expect(transform(kitnoLoaderSourcePath)).toEqual(kitnoLoaderOutput);
+  expect(transform(kitnoLoaderSourcePath).toString()).toEqual(kitnoLoaderOutput.toString());
 });
 
 it('parses test/kitno-loader.coffee', () => {
   const loaderSourcePath = 'test/example/loader.source.coffee';
   const loaderOutput = fs.readFileSync('test/example/loader.output.coffee');
-  expect(transform(loaderSourcePath)).toEqual(loaderOutput);
+  expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
 });

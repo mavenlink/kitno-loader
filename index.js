@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = function(source) {
   const namespaces = this.query.namespaces;
-  let newSource;
+  let newSource = source; // FYI: source has an implicit newline
 
   Object.keys(namespaces).forEach((namespace) => {
     const namespaceRegex = new RegExp(`${namespace}\W|$`);
@@ -16,9 +16,13 @@ module.exports = function(source) {
       const namespacePath = namespaces[namespace];
       const relativeRequirePath = path.relative(this.context, namespacePath);
       const requireStatement = `${className} = require './${relativeRequirePath}'`;
-      newSource = `${requireStatement}\n\n\n${source}`; // source has an implicit newline
+      newSource = `${requireStatement}\n\n\n${newSource}`;
     }
   });
 
-  return newSource || source;
+  const actualClass = /^class\s+(\S+)/.exec(source)[1];
+
+  newSource = `${newSource}\n\nmodule.exports = ${actualClass}\n`;
+
+  return newSource;
 };
