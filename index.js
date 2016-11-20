@@ -12,7 +12,7 @@ module.exports = function(source) {
     const invalidNamespaceRegex = new RegExp(`class ${namespace}`);
     const invalidMatches = invalidNamespaceRegex.exec(source);
 
-    if (matches && !invalidMatches) {
+    if (matches && matches[0] && !invalidMatches) {
       const className = namespace;
       const namespacePath = internalNamespaces[namespace];
       const relativeRequirePath = path.relative(this.context, namespacePath);
@@ -27,7 +27,7 @@ module.exports = function(source) {
     const namespaceRegex = new RegExp(`${namespace}`);
     const matches = namespaceRegex.exec(source);
 
-    if (matches) {
+    if (matches && matches[0]) {
       const className = namespace;
       const moduleName = externalNamespaces[namespace];
       const requireStatement = `${className} = require '${moduleName}'`;
