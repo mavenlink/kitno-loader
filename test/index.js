@@ -4,9 +4,14 @@ const unboundTransform = require('../index.js');
 
 const query = {
   namespaces: {
-    'KitnoLoader': 'test/example/kitno-loader.source.coffee',
-    'Loader': 'test/example/loader.source.coffee',
-  },
+    internal: {
+      'KitnoLoader': 'test/example/kitno-loader.source.coffee',
+      'Loader': 'test/example/loader.source.coffee',
+    },
+    external: {
+      'Loaders': 'loaders'
+    },
+  }
 };
 
 const transform = (resourcePath) => {
