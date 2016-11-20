@@ -2,8 +2,8 @@ const fs = require('fs');
 const glob = require('glob');
 const files = process.argv.slice(2).reduce((files, file) => files.concat(glob.sync(file)), []);
 
-const stats = files.reduce((stats, filePath) => {
-  const source = fs.readFileSync(filePath);
+const namespaces = files.reduce((namespaces, filePath) => {
+  const source = fs.readFileSync(filePath).toString();
 
   if (/\.js$/.test(filePath)) {
     /*
@@ -16,18 +16,30 @@ const stats = files.reduce((stats, filePath) => {
      * - `class` definitions
      * - window assignments via `window.Foo` and `@Foo`
      */
-    try {
-      // Not sure why but a lot of CoffeeScript files raise:
-      // - `TypeError: Cannot read property 'Symbol(Symbol.iterator)' of null`
-      const actualClass = /^class\s+(\S+)/.exec(source)[1];
-      stats[actualClass] = fs.realpathSync(filePath);
-    } catch(error) {
-      console.log(`Something went wrong parsing ${filePath}:\n${error}`);
+    const internalMatch = /(?:^|\n)class\s+(\S+)/.exec(source);
+
+    if (internalMatch) {
+      const internalClass = internalMatch[1];
+
+      namespaces.internal[internalClass] = fs.realpathSync(filePath);
+      delete namespaces.external[internalClass];
+    }
+
+    const superClassMatch = /^class\s+\S+\s+extends\s+(\S+)/.exec(source);
+
+    if (superClassMatch) {
+      const superClass = superClassMatch[1];
+
+      if (!namespaces.internal[superClass]) {
+        namespaces.external[superClass] = true;
+      }
     }
   }
 
-  return stats;
-}, {})
+  return namespaces;
+}, { internal: {}, external: {} })
 
-console.log(stats);
+
+
+console.log(namespaces);
 process.exit();
