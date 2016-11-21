@@ -3,7 +3,9 @@ const path = require('path');
 module.exports = function(source) {
   let newSource = `\n\n${source}\n\n`;
 
-  // Extract all known global namespaces as imported variables
+  const namespacesToReplace = {};
+
+  // Collect all known global namespaces
   const internalNamespaces = this.query.namespaces.internal;
   Object.keys(internalNamespaces).forEach((namespace) => {
     const namespaceRegex = new RegExp(`${namespace}`);
@@ -16,12 +18,11 @@ module.exports = function(source) {
       const className = namespace;
       const namespacePath = internalNamespaces[namespace];
       const relativeRequirePath = path.relative(this.context, namespacePath);
-      const requireStatement = `${className} = require './${relativeRequirePath}'`;
-      newSource = `${requireStatement}\n${newSource}`;
+      namespacesToReplace[className] = `./${relativeRequirePath}`;
     }
   });
 
-  // Extract all known external namespaces as imported variables
+  // Collect all known external namespaces
   const externalNamespaces = this.query.namespaces.external;
   Object.keys(externalNamespaces).forEach((namespace) => {
     const namespaceRegex = new RegExp(`${namespace}`);
@@ -30,9 +31,14 @@ module.exports = function(source) {
     if (matches && matches[0]) {
       const className = namespace;
       const moduleName = externalNamespaces[namespace];
-      const requireStatement = `${className} = require '${moduleName}'`;
-      newSource = `${requireStatement}\n${newSource}`;
+      namespacesToReplace[className] = moduleName;
     }
+  });
+
+  // Extract existing namespaces as imported variables
+  Object.keys(namespacesToReplace).forEach((namespace) => {
+    const requireStatement = `${namespace} = require '${namespacesToReplace[namespace]}'\n`;
+    newSource = `${requireStatement}${newSource}`
   });
 
   // Export defined class
