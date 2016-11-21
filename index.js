@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = function(source) {
-  let newSource = source; // FYI: source has an implicit newline
+  let newSource = `\n\n${source}\n\n`;
 
   // Extract all known global namespaces as imported variables
   const internalNamespaces = this.query.namespaces.internal;
@@ -17,7 +17,7 @@ module.exports = function(source) {
       const namespacePath = internalNamespaces[namespace];
       const relativeRequirePath = path.relative(this.context, namespacePath);
       const requireStatement = `${className} = require './${relativeRequirePath}'`;
-      newSource = `${requireStatement}\n\n\n${newSource}`;
+      newSource = `${requireStatement}\n${newSource}`;
     }
   });
 
@@ -31,13 +31,13 @@ module.exports = function(source) {
       const className = namespace;
       const moduleName = externalNamespaces[namespace];
       const requireStatement = `${className} = require '${moduleName}'`;
-      newSource = `${requireStatement}\n\n\n${newSource}`;
+      newSource = `${requireStatement}\n${newSource}`;
     }
   });
 
   // Export defined class
   const actualClass = /^class\s+(\S+)/.exec(source)[1];
-  newSource = `${newSource}\n\nmodule.exports = ${actualClass}\n`;
+  newSource = `${newSource}module.exports = ${actualClass}\n`;
 
   return newSource;
 };
