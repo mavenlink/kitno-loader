@@ -1,8 +1,6 @@
 const path = require('path');
 
 module.exports = function(source) {
-  let newSource = `\n\n${source}\n\n`;
-
   const namespacesToReplace = {};
 
   // Collect all known global namespaces
@@ -34,6 +32,8 @@ module.exports = function(source) {
       namespacesToReplace[className] = moduleName;
     }
   });
+
+  let newSource = `\n\n${source}\n\n`;
 
   // Extract existing namespaces as imported variables
   Object.keys(namespacesToReplace).forEach((namespace) => {
