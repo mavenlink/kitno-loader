@@ -39,7 +39,8 @@ module.exports = function(source) {
   Object.keys(namespacesToReplace).forEach((namespace) => {
     const shortName = namespace.split('.').pop();
     const requireStatement = `${shortName} = require '${namespacesToReplace[namespace]}'\n`;
-    newSource = `${requireStatement}${newSource}`
+    const replacedSource = newSource.replace(namespace, shortName);
+    newSource = `${requireStatement}${replacedSource}`
   });
 
   // Export defined class
