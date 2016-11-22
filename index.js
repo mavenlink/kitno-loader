@@ -12,8 +12,8 @@ module.exports = function(source) {
     const invalidNamespaceRegex = new RegExp(`class ${namespace}`);
     const invalidMatches = invalidNamespaceRegex.exec(source);
 
-      const className = namespace;
     if (matches && matches[1] && !invalidMatches) {
+      const className = namespace;
       const namespacePath = internalNamespaces[namespace];
       const relativeRequirePath = path.relative(this.context, namespacePath);
       namespacesToReplace[className] = `./${relativeRequirePath}`;
@@ -33,12 +33,20 @@ module.exports = function(source) {
     }
   });
 
-  let newSource = `\n\n${source}\n\n`;
-
+  let shortNamespaceToRequire = {};
+  let namespaceToShort = {};
   // Extract existing namespaces as imported variables
   Object.keys(namespacesToReplace).forEach((namespace) => {
     const shortName = namespace.split('.').pop();
-    const requireStatement = `${shortName} = require '${namespacesToReplace[namespace]}'\n`;
+    shortNamespaceToRequire[shortName] = `require '${namespacesToReplace[namespace]}'\n`;
+    namespaceToShort[namespace] = shortName;
+  });
+
+  let newSource = `\n${source}\n\n`;
+  // Write the require statements at the top of the source
+  Object.keys(namespaceToShort).forEach((namespace) => {
+    const shortName = namespaceToShort[namespace];
+    const requireStatement = `${shortName} = ${shortNamespaceToRequire[shortName]}\n`;
     const replacedSource = newSource.replace(namespace, shortName);
     newSource = `${requireStatement}${replacedSource}`
   });
