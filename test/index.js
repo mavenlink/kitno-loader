@@ -8,6 +8,7 @@ const query = {
       'KitnoLoader': 'test/example/kitno-loader.source.coffee',
       'Loader': 'test/example/loader.source.coffee',
       'This.Other.Thing': 'test/example/this/other/thing.js',
+      'This.Other.View': 'test/example/this/other/view.js',
     },
     external: {
       'Loaders': 'loaders',
@@ -40,5 +41,11 @@ it('parses test/kitno-loader.coffee', () => {
 it('parses test/multi-namespace.coffee', () => {
   const loaderSourcePath = 'test/example/multi-namespace.source.coffee';
   const loaderOutput = fs.readFileSync('test/example/multi-namespace.output.coffee');
+  expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
+});
+
+it('parses test/namespace-collision.coffee', () => {
+  const loaderSourcePath = 'test/example/namespace-collision.source.coffee';
+  const loaderOutput = fs.readFileSync('test/example/namespace-collision.output.coffee');
   expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
 });

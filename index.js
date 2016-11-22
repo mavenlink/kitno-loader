@@ -6,14 +6,14 @@ module.exports = function(source) {
   // Collect all known global namespaces
   const internalNamespaces = this.query.namespaces.internal;
   Object.keys(internalNamespaces).forEach((namespace) => {
-    const namespaceRegex = new RegExp(`${namespace}`);
+    const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})`);
     const matches = namespaceRegex.exec(source);
 
     const invalidNamespaceRegex = new RegExp(`class ${namespace}`);
     const invalidMatches = invalidNamespaceRegex.exec(source);
 
-    if (matches && matches[0] && !invalidMatches) {
       const className = namespace;
+    if (matches && matches[1] && !invalidMatches) {
       const namespacePath = internalNamespaces[namespace];
       const relativeRequirePath = path.relative(this.context, namespacePath);
       namespacesToReplace[className] = `./${relativeRequirePath}`;
@@ -23,10 +23,10 @@ module.exports = function(source) {
   // Collect all known external namespaces
   const externalNamespaces = this.query.namespaces.external;
   Object.keys(externalNamespaces).forEach((namespace) => {
-    const namespaceRegex = new RegExp(`${namespace}`);
+    const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})[^\\w\\.]`);
     const matches = namespaceRegex.exec(source);
 
-    if (matches && matches[0]) {
+    if (matches && matches[1]) {
       const className = namespace;
       const moduleName = externalNamespaces[namespace];
       namespacesToReplace[className] = moduleName;
