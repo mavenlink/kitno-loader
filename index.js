@@ -37,12 +37,14 @@ module.exports = function(source) {
 
   // Extract existing namespaces as imported variables
   Object.keys(namespacesToReplace).forEach((namespace) => {
-    const requireStatement = `${namespace} = require '${namespacesToReplace[namespace]}'\n`;
+    const shortName = namespace.split('.').pop();
+    const requireStatement = `${shortName} = require '${namespacesToReplace[namespace]}'\n`;
     newSource = `${requireStatement}${newSource}`
   });
 
   // Export defined class
-  const actualClass = /^class\s+(\S+)/.exec(source)[1];
+  const classDefinition = /^class\s+(\S+)/.exec(source)[1];
+  const actualClass = classDefinition.split('.').pop();
   newSource = `${newSource}module.exports = ${actualClass}\n`;
 
   return newSource;
