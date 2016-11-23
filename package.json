@@ -11,7 +11,7 @@
     "lint": "eslint '**/**/*.js'",
     "lint-fix": "npm run lint -- --fix",
     "test": "jasmine test/index.js",
-    "test:browser": "devtool node_modules/jasmine/bin/jasmine.js test/index.js"
+    "test:debug": "devtool node_modules/jasmine/bin/jasmine.js test/index.js"
   },
   "author": "Juan Carlos Medina <juanca.med@gmail.com>",
   "contributors": [
