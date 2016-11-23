@@ -1,4 +1,4 @@
-Thing = require './this/other/thing.js'
+Thing = require './this/other/thing.coffee'
 
 
 class FileLayout extends Thing

@@ -1,4 +1,4 @@
-View = require './my/awesome/view.js'
+View = require './my/awesome/view.coffee'
 
 
 class AwesomeView extends View
