@@ -1,8 +1,9 @@
 const fs = require('fs');
 const glob = require('glob');
-const files = process.argv.slice(2).reduce((files, file) => files.concat(glob.sync(file)), []);
 
-const namespaces = files.reduce((namespaces, filePath) => {
+const fileNames = process.argv.slice(2).reduce((files, file) => files.concat(glob.sync(file)), []);
+
+const namespacesMap = fileNames.reduce((namespaces, filePath) => {
   const source = fs.readFileSync(filePath).toString();
 
   if (/\.js$/.test(filePath)) {
@@ -21,8 +22,10 @@ const namespaces = files.reduce((namespaces, filePath) => {
     if (internalMatch) {
       const internalClass = internalMatch[1];
 
+      /* eslint-disable no-param-reassign */
       namespaces.internal[internalClass] = fs.realpathSync(filePath);
       delete namespaces.external[internalClass];
+      /* eslint-enable no-param-reassign */
     }
 
     const superClassMatch = /^class\s+\S+\s+extends\s+(\S+)/.exec(source);
@@ -31,15 +34,14 @@ const namespaces = files.reduce((namespaces, filePath) => {
       const superClass = superClassMatch[1];
 
       if (!namespaces.internal[superClass]) {
-        namespaces.external[superClass] = true;
+        namespaces.external[superClass] = true; // eslint-disable-line no-param-reassign
       }
     }
   }
 
   return namespaces;
-}, { internal: {}, external: {} })
+}, { internal: {}, external: {} });
 
 
-
-console.log(namespaces);
+console.log(namespacesMap); // eslint-disable-line no-console
 process.exit();

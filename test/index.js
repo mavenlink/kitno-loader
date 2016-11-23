@@ -5,17 +5,17 @@ const unboundTransform = require('../index.js');
 const query = {
   namespaces: {
     internal: {
-      'KitnoLoader': 'test/example/kitno-loader.source.coffee',
-      'Loader': 'test/example/loader.source.coffee',
+      KitnoLoader: 'test/example/kitno-loader.source.coffee',
+      Loader: 'test/example/loader.source.coffee',
       'This.Other.Thing': 'test/example/this/other/thing.js',
       'This.Other.View': 'test/example/this/other/view.js',
       'My.Awesome.View': 'test/example/my/awesome/view.js',
     },
     external: {
-      'Loaders': 'loaders',
-      'View': 'View',
+      Loaders: 'loaders',
+      View: 'View',
     },
-  }
+  },
 };
 
 const transform = (resourcePath) => {

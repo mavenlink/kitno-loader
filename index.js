@@ -1,14 +1,14 @@
 const path = require('path');
 
-module.exports = function(source) {
+module.exports = function loader(source) {
   const namespacesToReplace = {};
-  let shortNamespaceToRequire = {};
-  let namespaceToShort = {};
-  let shortToNamespace = {};
+  const shortNamespaceToRequire = {};
+  const namespaceToShort = {};
+  const shortToNamespace = {};
 
   // Given a dupe `shortName`, use it's corresponding `namespace` and come up with a unique one.
   const namespaceDedupe = (shortName, namespace) => {
-    let nameDefs = namespace.split('.');
+    const nameDefs = namespace.split('.');
     const newName = `${nameDefs.pop()}${shortName}`;
 
     if (shortToNamespace[newName] && namespace.length > 0) {
@@ -68,13 +68,13 @@ module.exports = function(source) {
     const shortName = namespaceToShort[namespace];
     const requireStatement = `${shortName} = ${shortNamespaceToRequire[shortName]}\n`;
     replacedSource = newSource.replace(namespace, shortName);
-    newSource = `${requireStatement}${replacedSource}`
+    newSource = `${requireStatement}${replacedSource}`;
   });
 
   // Export defined class
-  let definitionName = /^class\s+(\S+)/.exec(source)[1];
-  let classDefinition = definitionName;
-  let defNames = classDefinition.split('.');
+  const definitionName = /^class\s+(\S+)/.exec(source)[1];
+  const classDefinition = definitionName;
+  const defNames = classDefinition.split('.');
   let actualClass = defNames.pop();
 
   if (shortToNamespace[actualClass]) {

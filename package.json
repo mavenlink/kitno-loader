@@ -8,6 +8,8 @@
     "url": "https://github.com/mavenlink/kitno-loader.git"
   },
   "scripts": {
+    "lint": "eslint '**/**/*.js'",
+    "lint-fix": "npm run lint -- --fix",
     "test": "jasmine test/index.js",
     "test:browser": "devtool node_modules/jasmine/bin/jasmine.js test/index.js"
   },
@@ -28,6 +30,11 @@
   },
   "devDependencies": {
     "devtool": "^2.3.0",
+    "eslint": "^3.7.0",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.7.1",
     "jasmine": "^2.5.2"
   }
 }
