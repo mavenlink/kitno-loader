@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "description": "Killing in the namespace of. Stop using the global namespace in favor of modules.",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mavenlink/kitno-loader.git"
+  },
   "scripts": {
     "test": "jasmine test/index.js",
     "test:browser": "devtool node_modules/jasmine/bin/jasmine.js test/index.js"
