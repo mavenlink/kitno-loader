@@ -9,6 +9,7 @@ const query = {
       'Loader': 'test/example/loader.source.coffee',
       'This.Other.Thing': 'test/example/this/other/thing.js',
       'This.Other.View': 'test/example/this/other/view.js',
+      'My.Awesome.View': 'test/example/my/awesome/view.js',
     },
     external: {
       'Loaders': 'loaders',
@@ -53,5 +54,11 @@ it('parses test/namespace-collision.coffee', () => {
 it('parses test/duplicate-names.coffee', () => {
   const loaderSourcePath = 'test/example/duplicate-names.source.coffee';
   const loaderOutput = fs.readFileSync('test/example/duplicate-names.output.coffee');
+  expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
+});
+
+it('parses test/double-duplicate-names.coffee', () => {
+  const loaderSourcePath = 'test/example/double-duplicate-names.source.coffee';
+  const loaderOutput = fs.readFileSync('test/example/double-duplicate-names.output.coffee');
   expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
 });

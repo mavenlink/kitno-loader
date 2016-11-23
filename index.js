@@ -8,15 +8,14 @@ module.exports = function(source) {
 
   // Given a dupe `shortName`, use it's corresponding `namespace` and come up with a unique one.
   const namespaceDedupe = (shortName, namespace) => {
-    namespace = namespace.split('.').reverse().slice(0, -1);
-    // `reverse` mutates so this will put `namespace` back in original order with
-    shortName = namespace.reverse().join('');
+    let nameDefs = namespace.split('.');
+    const newName = `${nameDefs.pop()}${shortName}`;
 
-    if (shortToNamespace[shortName] && namespace.length > 0) {
-      return namespaceDedupe(shortName, namespace);
+    if (shortToNamespace[newName] && namespace.length > 0) {
+      return namespaceDedupe(newName, nameDefs.join('.'));
     }
 
-    return shortName;
+    return newName;
   };
 
   // Collect all known global namespaces
@@ -62,24 +61,26 @@ module.exports = function(source) {
     shortToNamespace[shortName] = namespace;
   });
 
+  let replacedSource;
   let newSource = `\n${source}\n\n`;
   // Write the require statements at the top of the source
   Object.keys(namespaceToShort).forEach((namespace) => {
     const shortName = namespaceToShort[namespace];
     const requireStatement = `${shortName} = ${shortNamespaceToRequire[shortName]}\n`;
-    const replacedSource = newSource.replace(namespace, shortName);
+    replacedSource = newSource.replace(namespace, shortName);
     newSource = `${requireStatement}${replacedSource}`
   });
 
   // Export defined class
   let definitionName = /^class\s+(\S+)/.exec(source)[1];
   let classDefinition = definitionName;
-  let actualClass = classDefinition.split('.').pop();
+  let defNames = classDefinition.split('.');
+  let actualClass = defNames.pop();
 
   if (shortToNamespace[actualClass]) {
-    actualClass = namespaceDedupe(actualClass, classDefinition);
+    actualClass = namespaceDedupe(actualClass, defNames.join('.'));
   }
-  const replacedSource = newSource.replace(definitionName, actualClass);
+  replacedSource = newSource.replace(definitionName, actualClass);
   newSource = `${replacedSource}module.exports = ${actualClass}\n`;
 
   return newSource;
