@@ -2,6 +2,22 @@ const path = require('path');
 
 module.exports = function(source) {
   const namespacesToReplace = {};
+  let shortNamespaceToRequire = {};
+  let namespaceToShort = {};
+  let shortToNamespace = {};
+
+  // Given a dupe `shortName`, use it's corresponding `namespace` and come up with a unique one.
+  const namespaceDedupe = (shortName, namespace) => {
+    namespace = namespace.split('.').reverse().slice(0, -1);
+    // `reverse` mutates so this will put `namespace` back in original order with
+    shortName = namespace.reverse().join('');
+
+    if (shortToNamespace[shortName] && namespace.length > 0) {
+      return namespaceDedupe(shortName, namespace);
+    }
+
+    return shortName;
+  };
 
   // Collect all known global namespaces
   const internalNamespaces = this.query.namespaces.internal;
@@ -33,13 +49,17 @@ module.exports = function(source) {
     }
   });
 
-  let shortNamespaceToRequire = {};
-  let namespaceToShort = {};
   // Extract existing namespaces as imported variables
   Object.keys(namespacesToReplace).forEach((namespace) => {
-    const shortName = namespace.split('.').pop();
-    shortNamespaceToRequire[shortName] = `require '${namespacesToReplace[namespace]}'\n`;
+    let shortName = namespace.split('.').pop();
+
+    if (shortToNamespace[shortName]) {
+      shortName = namespaceDedupe(shortName, namespace);
+    } else {
+      shortNamespaceToRequire[shortName] = `require '${namespacesToReplace[namespace]}'\n`;
+    }
     namespaceToShort[namespace] = shortName;
+    shortToNamespace[shortName] = namespace;
   });
 
   let newSource = `\n${source}\n\n`;
@@ -52,9 +72,15 @@ module.exports = function(source) {
   });
 
   // Export defined class
-  const classDefinition = /^class\s+(\S+)/.exec(source)[1];
-  const actualClass = classDefinition.split('.').pop();
-  newSource = `${newSource}module.exports = ${actualClass}\n`;
+  let definitionName = /^class\s+(\S+)/.exec(source)[1];
+  let classDefinition = definitionName;
+  let actualClass = classDefinition.split('.').pop();
+
+  if (shortToNamespace[actualClass]) {
+    actualClass = namespaceDedupe(actualClass, classDefinition);
+  }
+  const replacedSource = newSource.replace(definitionName, actualClass);
+  newSource = `${replacedSource}module.exports = ${actualClass}\n`;
 
   return newSource;
 };

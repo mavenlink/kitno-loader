@@ -49,3 +49,9 @@ it('parses test/namespace-collision.coffee', () => {
   const loaderOutput = fs.readFileSync('test/example/namespace-collision.output.coffee');
   expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
 });
+
+it('parses test/duplicate-names.coffee', () => {
+  const loaderSourcePath = 'test/example/duplicate-names.source.coffee';
+  const loaderOutput = fs.readFileSync('test/example/duplicate-names.output.coffee');
+  expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
+});
