@@ -62,3 +62,9 @@ it('parses test/double-duplicate-names.coffee', () => {
   const loaderOutput = fs.readFileSync('test/example/double-duplicate-names.output.coffee');
   expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
 });
+
+it('parses test/double-duplicate-internal-names.coffee', () => {
+  const loaderSourcePath = 'test/example/double-duplicate-internal-names.source.coffee';
+  const loaderOutput = fs.readFileSync('test/example/double-duplicate-internal-names.output.coffee');
+  expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
+});

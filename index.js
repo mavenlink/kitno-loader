@@ -20,7 +20,7 @@ module.exports = function loader(source) {
 
   // Collect all known global namespaces
   const internalNamespaces = this.query.namespaces.internal;
-  Object.keys(internalNamespaces).forEach((namespace) => {
+  Object.keys(internalNamespaces).sort().forEach((namespace) => {
     const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})`);
     const matches = namespaceRegex.exec(source);
 
@@ -37,7 +37,7 @@ module.exports = function loader(source) {
 
   // Collect all known external namespaces
   const externalNamespaces = this.query.namespaces.external;
-  Object.keys(externalNamespaces).forEach((namespace) => {
+  Object.keys(externalNamespaces).sort().forEach((namespace) => {
     const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})[^\\w\\.]`);
     const matches = namespaceRegex.exec(source);
 
@@ -49,27 +49,30 @@ module.exports = function loader(source) {
   });
 
   // Extract existing namespaces as imported variables
-  Object.keys(namespacesToReplace).forEach((namespace) => {
-    let shortName = namespace.split('.').pop();
+  Object.keys(namespacesToReplace).sort().forEach((namespace) => {
+    const defNames = namespace.split('.');
+    let shortName = defNames.pop();
 
     if (shortToNamespace[shortName]) {
-      shortName = namespaceDedupe(shortName, namespace);
-    } else {
-      shortNamespaceToRequire[shortName] = `require '${namespacesToReplace[namespace]}'\n`;
+      shortName = namespaceDedupe(shortName, defNames.join('.'));
     }
+
+    shortNamespaceToRequire[shortName] = `require '${namespacesToReplace[namespace]}'`;
     namespaceToShort[namespace] = shortName;
     shortToNamespace[shortName] = namespace;
   });
 
-  let replacedSource;
-  let newSource = `\n${source}\n\n`;
+  let newSource = `\n\n${source}\n\n`;
+  let replacedSource = newSource;
+  const requireStatements = [];
   // Write the require statements at the top of the source
-  Object.keys(namespaceToShort).forEach((namespace) => {
+  Object.keys(namespaceToShort).sort().forEach((namespace) => {
     const shortName = namespaceToShort[namespace];
     const requireStatement = `${shortName} = ${shortNamespaceToRequire[shortName]}\n`;
-    replacedSource = newSource.replace(namespace, shortName);
-    newSource = `${requireStatement}${replacedSource}`;
+    replacedSource = replacedSource.replace(namespace, shortName);
+    requireStatements.push(requireStatement);
   });
+  newSource = `${requireStatements.join('')}${replacedSource}`;
 
   // Export defined class
   const definitionName = /^class\s+(\S+)/.exec(source)[1];
