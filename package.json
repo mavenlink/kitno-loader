@@ -10,8 +10,8 @@
   "scripts": {
     "lint": "eslint '**/**/*.js'",
     "lint-fix": "npm run lint -- --fix",
-    "test": "jasmine test/index.js",
-    "test:debug": "devtool node_modules/jasmine/bin/jasmine.js test/index.js"
+    "test": "jasmine test/*-spec.js",
+    "test:debug": "devtool node_modules/jasmine/bin/jasmine.js test/*-spec.js"
   },
   "author": "Juan Carlos Medina <juanca.med@gmail.com>",
   "contributors": [
