@@ -1,6 +1,7 @@
-module.exports = {
+const fs = require('fs');
+
+const namespaces = {
   internal: {
-    // TODO: Make the values absolute paths to reflect actual code results.
     KitnoLoader: 'test/example/kitno-loader.source.coffee',
     Loader: 'test/example/loader.source.coffee',
     'This.Other.Thing': 'test/example/this/other/thing.coffee',
@@ -12,3 +13,9 @@ module.exports = {
     View: 'view',
   },
 };
+
+Object.keys(namespaces.internal).forEach((key) => {
+  namespaces.internal[key] = fs.realpathSync(namespaces.internal[key]);
+});
+
+module.exports = namespaces;

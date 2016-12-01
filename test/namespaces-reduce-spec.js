@@ -1,12 +1,9 @@
-const fs = require('fs');
 const namespacesReduce = require('../namespaces-reduce.js');
 const namespaces = require('./helpers/namespaces.js');
 
 // Node doesn't have `Object.values` for some reason...
-const fileNames = Object.keys(namespaces.internal).map(key => namespaces.internal[key]);
-const absoluteFileNames = fileNames.map(fileName =>
-  // Passing method directly passes additional arguments which it doesn't like.
-   fs.realpathSync(fileName));
+const absoluteFileNames = Object.keys(namespaces.internal).map(key => namespaces.internal[key]);
+
 
 describe('namespacesReduce', () => {
   let namespacesMap;
@@ -17,7 +14,7 @@ describe('namespacesReduce', () => {
 
   it('creates the internal map', () => {
     Object.keys(namespacesMap.internal).forEach((key) => {
-      expect(namespacesMap.internal[key]).toEqual(fs.realpathSync(namespaces.internal[key]));
+      expect(namespacesMap.internal[key]).toEqual(namespaces.internal[key]);
     });
   });
 
