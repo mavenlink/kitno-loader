@@ -33,7 +33,7 @@ module.exports = (fileNames) => {
         const superClass = superClassMatch[1];
 
         if (!namespaces.internal[superClass]) {
-          namespaces.external[superClass] = true; // eslint-disable-line no-param-reassign
+          namespaces.external[superClass] = superClass.toLowerCase(); // eslint-disable-line no-param-reassign
         }
       }
     }

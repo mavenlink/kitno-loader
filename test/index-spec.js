@@ -13,7 +13,7 @@ const query = {
     },
     external: {
       Loaders: 'loaders',
-      View: 'View',
+      View: 'view',
     },
   },
 };
