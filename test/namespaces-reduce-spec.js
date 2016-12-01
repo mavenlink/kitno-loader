@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 const namespacesReduce = require('../namespaces-reduce.js');
 
 // TODO: Extract this to share with specs and switch to be absolute paths.
@@ -20,15 +19,12 @@ const query = {
 };
 
 // Node doesn't have `Object.values` for some reason...
-const fileNames = Object.keys(query.namespaces.internal).map((key) => {
-  return query.namespaces.internal[key];
-});
-const absoluteFileNames = fileNames.map((fileName) => {
+const fileNames = Object.keys(query.namespaces.internal).map(key => query.namespaces.internal[key]);
+const absoluteFileNames = fileNames.map(fileName =>
   // Passing method directly passes additional arguments which it doesn't like.
-  return fs.realpathSync(fileName);
-});
+   fs.realpathSync(fileName));
 
-describe("namespacesReduce", () => {
+describe('namespacesReduce', () => {
   let namespacesMap;
 
   beforeEach(() => {

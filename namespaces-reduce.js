@@ -1,7 +1,6 @@
 const fs = require('fs');
 
-module.exports = (fileNames) => {
-  console.log(fileNames);
+module.exports = function fileReduce(fileNames) {
   return fileNames.reduce((namespaces, filePath) => {
     const source = fs.readFileSync(filePath).toString();
 
@@ -33,7 +32,9 @@ module.exports = (fileNames) => {
         const superClass = superClassMatch[1];
 
         if (!namespaces.internal[superClass]) {
-          namespaces.external[superClass] = superClass.toLowerCase(); // eslint-disable-line no-param-reassign
+          /* eslint-disable no-param-reassign */
+          namespaces.external[superClass] = superClass.toLowerCase();
+          /* eslint-enable no-param-reassign */
         }
       }
     }

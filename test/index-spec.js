@@ -27,7 +27,7 @@ const transform = (resourcePath) => {
   })(fileContent);
 };
 
-describe("kitno-loader", () => {
+describe('kitno-loader', () => {
   it('parses test/kitno-loader.coffee', () => {
     const kitnoLoaderSourcePath = 'test/example/kitno-loader.source.coffee';
     const kitnoLoaderOutput = fs.readFileSync('test/example/kitno-loader.output.coffee');
