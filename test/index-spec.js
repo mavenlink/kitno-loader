@@ -57,4 +57,10 @@ describe('kitno-loader', () => {
     const loaderOutput = fs.readFileSync('test/example/double-duplicate-internal-names.output.coffee');
     expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
   });
+
+  it('parses test/missing-namespace.coffee', () => {
+    const loaderSourcePath = 'test/example/missing-namespace.source.coffee';
+    const loaderOutput = fs.readFileSync('test/example/missing-namespace.output.coffee');
+    expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
+  });
 });

@@ -77,16 +77,19 @@ module.exports = function loader(source) {
   newSource = `${requireStatements.join('')}${replacedSource}`;
 
   // Export defined class
-  const definitionName = /^class\s+(\S+)/.exec(source)[1];
-  const classDefinition = definitionName;
-  const defNames = classDefinition.split('.');
-  let actualClass = defNames.pop();
+  const matches = /^class\s+(\S+)/.exec(source);
+  const definitionName = (matches || [])[1]
+  if (matches && internalNamespaces[definitionName]) {
+    const classDefinition = definitionName;
+    const defNames = classDefinition.split('.');
+    let actualClass = defNames.pop();
 
-  if (shortToNamespace[actualClass]) {
-    actualClass = namespaceDedupe(actualClass, defNames.join('.'));
+    if (shortToNamespace[actualClass]) {
+      actualClass = namespaceDedupe(actualClass, defNames.join('.'));
+    }
+    replacedSource = newSource.replace(definitionName, actualClass);
+    newSource = `${replacedSource}module.exports = ${actualClass}\n`;
   }
-  replacedSource = newSource.replace(definitionName, actualClass);
-  newSource = `${replacedSource}module.exports = ${actualClass}\n`;
 
   return newSource;
 };
