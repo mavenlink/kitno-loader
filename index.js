@@ -1,3 +1,4 @@
+const loaderUtils = require("loader-utils");
 const path = require('path');
 
 module.exports = function loader(source) {
@@ -5,6 +6,7 @@ module.exports = function loader(source) {
   const shortNamespaceToRequire = {};
   const namespaceToShort = {};
   const shortToNamespace = {};
+  const loaderOptions = loaderUtils.parseQuery(this.query);
 
   // Given a dupe `shortName`, use it's corresponding `namespace` and come up with a unique one.
   const namespaceDedupe = (shortName, namespace) => {
@@ -19,7 +21,7 @@ module.exports = function loader(source) {
   };
 
   // Collect all known global namespaces
-  const internalNamespaces = this.query.namespaces.internal;
+  const internalNamespaces = loaderOptions.namespaces.internal;
   Object.keys(internalNamespaces).sort().forEach((namespace) => {
     const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})`);
     const matches = namespaceRegex.exec(source);
@@ -36,7 +38,7 @@ module.exports = function loader(source) {
   });
 
   // Collect all known external namespaces
-  const externalNamespaces = this.query.namespaces.external;
+  const externalNamespaces = loaderOptions.namespaces.external;
   Object.keys(externalNamespaces).sort().forEach((namespace) => {
     const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})[^\\w\\.]`);
     const matches = namespaceRegex.exec(source);

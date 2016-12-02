@@ -26,7 +26,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "glob": "^7.1.1"
+    "glob": "^7.1.1",
+    "loader-utils": "^0.2.11"
   },
   "devDependencies": {
     "devtool": "^2.3.0",

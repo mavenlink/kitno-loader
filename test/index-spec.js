@@ -3,6 +3,7 @@ const path = require('path');
 const unboundTransform = require('../index.js');
 const namespaces = require('./helpers/namespaces.js');
 
+// TODO: Could convert this to a string, but `loaderUtils` handle non-String objects.
 const query = { namespaces };
 
 const transform = (resourcePath) => {
