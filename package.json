@@ -1,6 +1,6 @@
 {
   "name": "kitno-loader",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Killing in the namespace of. Stop using the global namespace in favor of modules.",
   "main": "index.js",
   "repository": {
