@@ -11,7 +11,7 @@ const namespaces = {
     'My.Awesome.FeatureView': 'test/example/namespace-collision.source.coffee',
     'My.Awesome.FileLayout': 'test/example/multi-namespace.source.coffee',
     'My.Awesome.View': 'test/example/my/awesome/view.coffee',
-    'My.Awesome.View': 'test/example/duplicate-names.source.coffee',
+    'My.Other.Awesome.View': 'test/example/duplicate-names.source.coffee',
     'My.Super.Awesome.View': 'test/example/double-duplicate-names.source.coffee',
   },
   external: {
