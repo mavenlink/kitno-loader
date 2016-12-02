@@ -5,7 +5,8 @@ const namespaces = {
     KitnoLoader: 'test/example/kitno-loader.source.coffee',
     Loader: 'test/example/loader.source.coffee',
     'This.Other.Awesome.View': 'test/example/double-duplicate-internal-names.source.coffee',
-    // 'This.Other.Item': 'test/example/missing-namespace.source.coffee', // PLEASE DO NOT ADD THIS ONE!
+    // PLEASE DO NOT ADD THIS ONE!
+    // 'This.Other.Item': 'test/example/missing-namespace.source.coffee',
     'This.Other.Thing': 'test/example/this/other/thing.coffee',
     'This.Other.View': 'test/example/this/other/view.coffee',
     'My.Awesome.FeatureView': 'test/example/namespace-collision.source.coffee',

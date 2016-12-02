@@ -1,4 +1,4 @@
-const loaderUtils = require("loader-utils");
+const loaderUtils = require('loader-utils');
 const path = require('path');
 
 module.exports = function loader(source) {
@@ -78,7 +78,7 @@ module.exports = function loader(source) {
 
   // Export defined class
   const matches = /^class\s+(\S+)/.exec(source);
-  const definitionName = (matches || [])[1]
+  const definitionName = (matches || [])[1];
   if (matches && internalNamespaces[definitionName]) {
     const classDefinition = definitionName;
     const defNames = classDefinition.split('.');
