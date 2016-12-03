@@ -4,7 +4,10 @@ const unboundTransform = require('../index.js');
 const namespaces = require('./helpers/namespaces.js');
 
 // TODO: Could convert this to a string, but `loaderUtils` handle non-String objects.
-const query = { namespaces };
+const query = {
+  namespaces,
+  // kitnoGlobs: ['example/my/**/*.coffee', 'example/this/**/*.coffee', 'example/**/*.source.coffee']
+};
 
 const transform = (resourcePath) => {
   const fileContent = fs.readFileSync(resourcePath);
@@ -64,3 +67,8 @@ describe('kitno-loader', () => {
     expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
   });
 });
+
+// Example of bad internal namespaces (because already exported?)
+// FakeTable: '/current/app/assets/javascripts/specs/specs/group2/backbone/controls/views/table/cells/string-cell-spec.coffee',
+// Testing: '/current/app/assets/javascripts/specs/specs/group2/base/classes/singleton-spec.coffee',
+// FakeView: '/current/app/assets/javascripts/specs/specs/group3/backbone/controls/views/qtip-button-spec.coffee',

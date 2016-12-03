@@ -1,12 +1,23 @@
 const loaderUtils = require('loader-utils');
 const path = require('path');
 
+const mapper = require('./bin/globalToPathMapper');
+let loaderOptions;
+
 module.exports = function loader(source) {
   const namespacesToReplace = {};
   const shortNamespaceToRequire = {};
   const namespaceToShort = {};
   const shortToNamespace = {};
-  const loaderOptions = loaderUtils.parseQuery(this.query);
+
+
+  if (!loaderOptions) {
+    loaderOptions = loaderUtils.parseQuery(this.query);
+    const mapped = mapper(loaderOptions.kitnoGlobs);
+    loaderOptions.namespaces.internal = mapped.internal;
+    // console.log(loaderOptions.namespaces.internal, 'internal first');
+  }
+  // console.log(loaderOptions.namespaces.internal, 'internal others');
 
   // Given a dupe `shortName`, use it's corresponding `namespace` and come up with a unique one.
   const namespaceDedupe = (shortName, namespace) => {
@@ -77,9 +88,9 @@ module.exports = function loader(source) {
   newSource = `${requireStatements.join('')}${replacedSource}`;
 
   // Export defined class
-  const matches = /^class\s+(\S+)/.exec(source);
-  const definitionName = (matches || [])[1];
-  if (matches && internalNamespaces[definitionName]) {
+  const matches = /(^|\n)class\s+(\S+)/.exec(newSource);
+  const definitionName = (matches || [])[2];
+  if (matches && definitionName && internalNamespaces[definitionName]) {
     const classDefinition = definitionName;
     const defNames = classDefinition.split('.');
     let actualClass = defNames.pop();
@@ -89,6 +100,16 @@ module.exports = function loader(source) {
     }
     replacedSource = newSource.replace(definitionName, actualClass);
     newSource = `${replacedSource}module.exports = ${actualClass}\n`;
+  } else {
+    console.log('DAWG!', matches, definitionName)
+    // console.log('===========================');
+    // console.log('===========================');
+    // console.log('===========================');
+    // console.log('OG SOURCE', source)
+    // console.log('NEW SOURCE', newSource)
+    // console.log('===========================');
+    // console.log('===========================');
+    // console.log('===========================');
   }
 
   return newSource;
