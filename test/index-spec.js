@@ -6,7 +6,7 @@ const namespaces = require('./helpers/namespaces.js');
 // TODO: Could convert this to a string, but `loaderUtils` handle non-String objects.
 const query = {
   namespaces,
-  // kitnoGlobs: ['example/my/**/*.coffee', 'example/this/**/*.coffee', 'example/**/*.source.coffee']
+  kitnoGlobs: ['test/example/my/**/*.coffee', 'test/example/this/**/*.coffee', 'test/example/**/*.source.coffee']
 };
 
 const transform = (resourcePath) => {
