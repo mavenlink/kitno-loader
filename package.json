@@ -45,5 +45,8 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.7.1",
     "jasmine": "^2.5.2"
+  },
+  "bin": {
+    "kitno-map": "bin/globalToPathMapper.js"
   }
 }
