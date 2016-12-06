@@ -25,7 +25,7 @@ describe('kitno-loader', () => {
     expect(transform(kitnoLoaderSourcePath).toString()).toEqual(kitnoLoaderOutput.toString());
   });
 
-  it('parses test/kitno-loader.coffee', () => {
+  it('parses test/loader.coffee', () => {
     const loaderSourcePath = 'test/example/loader.source.coffee';
     const loaderOutput = fs.readFileSync('test/example/loader.output.coffee');
     expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
