@@ -34,7 +34,7 @@ module.exports = function loader(source) {
   // Collect all known global namespaces
   const internalNamespaces = loaderOptions.namespaces.internal;
   Object.keys(internalNamespaces).sort().forEach((namespace) => {
-    const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})`);
+    const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})(\\s|\\.[a-z])`);
     const matches = namespaceRegex.exec(source);
 
     const invalidNamespaceRegex = new RegExp(`class ${namespace}`);
@@ -98,7 +98,7 @@ module.exports = function loader(source) {
     if (shortToNamespace[actualClass]) {
       actualClass = namespaceDedupe(actualClass, defNames.join('.'));
     }
-    replacedSource = newSource.replace(definitionName, actualClass);
+    replacedSource = newSource.replace(new RegExp(definitionName, 'g'), actualClass);
     newSource = `${replacedSource}module.exports = ${actualClass}\n`;
   } else {
     console.log('DAWG!', matches, definitionName)
