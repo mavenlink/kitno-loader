@@ -88,7 +88,7 @@ module.exports = function loader(source) {
   newSource = `${requireStatements.join('')}${replacedSource}`;
 
   // Export defined class
-  const matches = /(^|\n)class\s+(\S+)/.exec(newSource);
+  const matches = /(^)class\s+(\S+)/m.exec(source);
   const definitionName = (matches || [])[2];
   if (matches && definitionName && internalNamespaces[definitionName]) {
     const classDefinition = definitionName;
