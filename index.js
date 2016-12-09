@@ -34,7 +34,7 @@ module.exports = function loader(source) {
   // Collect all known global namespaces
   const internalNamespaces = loaderOptions.namespaces.internal;
   Object.keys(internalNamespaces).sort().forEach((namespace) => {
-    const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})(\\s|\\.[a-z])`);
+    const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})(\\s|\\.[a-z]|\\()`);
     const matches = namespaceRegex.exec(source);
 
     const invalidNamespaceRegex = new RegExp(`class ${namespace}`);
