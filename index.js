@@ -37,7 +37,7 @@ module.exports = function loader(source) {
     const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})(\\s|\\.[a-z]|\\()`);
     const matches = namespaceRegex.exec(source);
 
-    const invalidNamespaceRegex = new RegExp(`class ${namespace}`);
+    const invalidNamespaceRegex = new RegExp(`class ${namespace}\\s`);
     const invalidMatches = invalidNamespaceRegex.exec(source);
 
     if (matches && matches[1] && !invalidMatches) {
