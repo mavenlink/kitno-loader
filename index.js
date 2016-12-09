@@ -83,7 +83,7 @@ module.exports = function loader(source) {
   Object.keys(namespaceToShort).sort().forEach((namespace) => {
     const shortName = namespaceToShort[namespace];
     const requireStatement = `${shortName} = ${shortNamespaceToRequire[shortName]}\n`;
-    replacedSource = replacedSource.replace(namespace, shortName);
+    replacedSource = replacedSource.replace(new RegExp(`([^\\w\\.])(${namespace})(\\s|\\.[a-z]|\\()`, 'g'), `$1${shortName}$3`);
     requireStatements.push(requireStatement);
   });
   newSource = `${requireStatements.join('')}${replacedSource}`;
