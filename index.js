@@ -5,6 +5,7 @@ const mapper = require('./bin/globalToPathMapper');
 let loaderOptions;
 
 module.exports = function loader(source) {
+  this.cacheable();
   const namespacesToReplace = {};
   const shortNamespaceToRequire = {};
   const namespaceToShort = {};
