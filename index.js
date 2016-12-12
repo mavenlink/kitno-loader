@@ -35,7 +35,7 @@ module.exports = function loader(source) {
   // Collect all known global namespaces
   const internalNamespaces = loaderOptions.namespaces.internal;
   Object.keys(internalNamespaces).sort().forEach((namespace) => {
-    const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})(\\s|\\.[a-z]|\\()`);
+    const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})(\\s|\\.[a-z]|\\(|,)`);
     const matches = namespaceRegex.exec(source);
 
     const invalidNamespaceRegex = new RegExp(`class ${namespace}\\s`);
@@ -83,7 +83,7 @@ module.exports = function loader(source) {
   Object.keys(namespaceToShort).sort().forEach((namespace) => {
     const shortName = namespaceToShort[namespace];
     const requireStatement = `${shortName} = ${shortNamespaceToRequire[shortName]}\n`;
-    replacedSource = replacedSource.replace(new RegExp(`([^\\w\\.])(${namespace})(\\s|\\.[a-z]|\\()`, 'g'), `$1${shortName}$3`);
+    replacedSource = replacedSource.replace(new RegExp(`([^\\w\\.])(${namespace})(\\s|\\.[a-z]|\\(|,)`, 'g'), `$1${shortName}$3`);
     requireStatements.push(requireStatement);
   });
   newSource = `${requireStatements.join('')}${replacedSource}`;
