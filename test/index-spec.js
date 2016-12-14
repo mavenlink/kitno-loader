@@ -15,6 +15,7 @@ const transform = (resourcePath) => {
   return unboundTransform.bind({
     context: path.dirname(resourcePath),
     query,
+    cacheable: () => {},
   })(fileContent);
 };
 
