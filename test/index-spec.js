@@ -6,7 +6,7 @@ const namespaces = require('./helpers/namespaces.js');
 // TODO: Could convert this to a string, but `loaderUtils` handle non-String objects.
 const query = {
   namespaces,
-  kitnoGlobs: ['test/example/my/**/*.coffee', 'test/example/this/**/*.coffee', 'test/example/**/*.source.coffee']
+  kitnoGlobs: ['test/example/my/**/*.coffee', 'test/example/this/**/*.coffee', 'test/example/**/*.source.coffee'],
 };
 
 const transform = (resourcePath) => {
@@ -69,7 +69,9 @@ describe('kitno-loader', () => {
   });
 });
 
+/* eslint-disable max-len */
 // Example of bad internal namespaces (because already exported?)
 // FakeTable: '/current/app/assets/javascripts/specs/specs/group2/backbone/controls/views/table/cells/string-cell-spec.coffee',
 // Testing: '/current/app/assets/javascripts/specs/specs/group2/base/classes/singleton-spec.coffee',
 // FakeView: '/current/app/assets/javascripts/specs/specs/group3/backbone/controls/views/qtip-button-spec.coffee',
+/* eslint-enable max-len */

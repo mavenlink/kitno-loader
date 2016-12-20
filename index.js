@@ -10,10 +10,10 @@ module.exports = function loader(source) {
   const shortNamespaceToRequire = {};
   const namespaceToShort = {};
   const shortToNamespace = {};
-  const namespaceRegexp = (namespace) => {
-    //for now don't include a capital letter after a period because we haven't dealt with externals (i.e. `Notice.Alert`)
-    return `([^\\w\\.])(${namespace})(\\s|\\.[a-z]|\\(|,)`;
-  }
+  const namespaceRegexp = namespace =>
+    // for now don't include a capital letter after a period
+    // because we haven't dealt with externals (i.e. `Notice.Alert`)
+     `([^\\w\\.])(${namespace})(\\s|\\.[a-z]|\\(|,)`;
 
 
   if (!loaderOptions) {
@@ -106,7 +106,7 @@ module.exports = function loader(source) {
     replacedSource = newSource.replace(new RegExp(definitionName, 'g'), actualClass);
     newSource = `${replacedSource}module.exports = ${actualClass}\n`;
   } else {
-    console.log('DAWG!', matches, definitionName)
+    console.log('DAWG!', matches, definitionName); // eslint-disable-line no-console
     // console.log('===========================');
     // console.log('===========================');
     // console.log('===========================');
