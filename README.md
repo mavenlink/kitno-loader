@@ -19,3 +19,10 @@ Inspired from the original [Killing In The Namespace Of](https://github.com/mave
 - For each namespace, use JavaScript module
   - `require`/`import` at the top of the file
   - local variable used for namespace (avoid collision)
+
+
+## How-to-use
+
+Given the complexity of globals -> locals problem and the desired simplicity of a solution, codebase massaging is required to effectively run `kitno-loader`.
+
+1. All code references in comments should be in enclosed with backticks
