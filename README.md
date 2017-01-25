@@ -26,3 +26,4 @@ Inspired from the original [Killing In The Namespace Of](https://github.com/mave
 Given the complexity of globals -> locals problem and the desired simplicity of a solution, codebase massaging is required to effectively run `kitno-loader`.
 
 1. All code references in comments should be in enclosed with backticks
+2. Any existing exports of globals should be deleted
