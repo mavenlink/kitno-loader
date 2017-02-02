@@ -1,4 +1,5 @@
 
+
 require('asdfasdfa');
 
 ###*
@@ -43,4 +44,7 @@ require('asdfasdfa');
  *
 ###
 
-class This.Other.Item extends My.Missing.View
+class Item extends My.Missing.View
+
+
+module.exports = Item

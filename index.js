@@ -1,23 +1,26 @@
 const loaderUtils = require('loader-utils');
 const path = require('path');
-
 const mapper = require('./bin/globalToPathMapper');
+
 let loaderOptions;
 
 module.exports = function loader(source) {
+  this.cacheable();
   const namespacesToReplace = {};
   const shortNamespaceToRequire = {};
   const namespaceToShort = {};
   const shortToNamespace = {};
+  const namespaceRegexp = namespace =>
+    // for now don't include a capital letter after a period
+    // because we haven't dealt with externals (i.e. `Notice.Alert`)
+    `([^\\w\\.])(${namespace})(\\s|\\.[a-z]|\\(|,)`;
 
 
   if (!loaderOptions) {
     loaderOptions = loaderUtils.parseQuery(this.query);
     const mapped = mapper(loaderOptions.kitnoGlobs);
     loaderOptions.namespaces.internal = mapped.internal;
-    // console.log(loaderOptions.namespaces.internal, 'internal first');
   }
-  // console.log(loaderOptions.namespaces.internal, 'internal others');
 
   // Given a dupe `shortName`, use it's corresponding `namespace` and come up with a unique one.
   const namespaceDedupe = (shortName, namespace) => {
@@ -34,10 +37,10 @@ module.exports = function loader(source) {
   // Collect all known global namespaces
   const internalNamespaces = loaderOptions.namespaces.internal;
   Object.keys(internalNamespaces).sort().forEach((namespace) => {
-    const namespaceRegex = new RegExp(`[^\\w\\.](${namespace})`);
+    const namespaceRegex = new RegExp(namespaceRegexp(namespace));
     const matches = namespaceRegex.exec(source);
 
-    const invalidNamespaceRegex = new RegExp(`class ${namespace}`);
+    const invalidNamespaceRegex = new RegExp(`class ${namespace}\\s`);
     const invalidMatches = invalidNamespaceRegex.exec(source);
 
     if (matches && matches[1] && !invalidMatches) {
@@ -82,13 +85,13 @@ module.exports = function loader(source) {
   Object.keys(namespaceToShort).sort().forEach((namespace) => {
     const shortName = namespaceToShort[namespace];
     const requireStatement = `${shortName} = ${shortNamespaceToRequire[shortName]}\n`;
-    replacedSource = replacedSource.replace(namespace, shortName);
+    replacedSource = replacedSource.replace(new RegExp(namespaceRegexp(namespace), 'g'), `$1${shortName}$3`);
     requireStatements.push(requireStatement);
   });
   newSource = `${requireStatements.join('')}${replacedSource}`;
 
   // Export defined class
-  const matches = /(^|\n)class\s+(\S+)/.exec(newSource);
+  const matches = /(^)class\s+(\S+)/m.exec(source);
   const definitionName = (matches || [])[2];
   if (matches && definitionName && internalNamespaces[definitionName]) {
     const classDefinition = definitionName;
@@ -98,18 +101,8 @@ module.exports = function loader(source) {
     if (shortToNamespace[actualClass]) {
       actualClass = namespaceDedupe(actualClass, defNames.join('.'));
     }
-    replacedSource = newSource.replace(definitionName, actualClass);
+    replacedSource = newSource.replace(new RegExp(definitionName, 'g'), actualClass);
     newSource = `${replacedSource}module.exports = ${actualClass}\n`;
-  } else {
-    console.log('DAWG!', matches, definitionName)
-    // console.log('===========================');
-    // console.log('===========================');
-    // console.log('===========================');
-    // console.log('OG SOURCE', source)
-    // console.log('NEW SOURCE', newSource)
-    // console.log('===========================');
-    // console.log('===========================');
-    // console.log('===========================');
   }
 
   return newSource;

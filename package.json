@@ -1,6 +1,6 @@
 {
   "name": "kitno-loader",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Killing in the namespace of. Stop using the global namespace in favor of modules.",
   "main": "index.js",
   "repository": {
@@ -20,6 +20,14 @@
       "email": "juanca.med@gmail.com"
     },
     {
+      "name": "Cassandra Cruz",
+      "email": "celkamada@gmail.com"
+    },
+    {
+      "name": "Catherine Meyers",
+      "email": "ccmeyers@gmail.com"
+    },
+    {
       "name": "Alan Wong",
       "email": "naganowl@gmail.com"
     }
@@ -37,5 +45,8 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.7.1",
     "jasmine": "^2.5.2"
+  },
+  "bin": {
+    "kitno-map": "bin/globalToPathMapper.js"
   }
 }

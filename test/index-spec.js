@@ -6,7 +6,7 @@ const namespaces = require('./helpers/namespaces.js');
 // TODO: Could convert this to a string, but `loaderUtils` handle non-String objects.
 const query = {
   namespaces,
-  // kitnoGlobs: ['example/my/**/*.coffee', 'example/this/**/*.coffee', 'example/**/*.source.coffee']
+  kitnoGlobs: ['test/example/my/**/*.coffee', 'test/example/this/**/*.coffee', 'test/example/**/*.source.coffee'],
 };
 
 const transform = (resourcePath) => {
@@ -15,6 +15,7 @@ const transform = (resourcePath) => {
   return unboundTransform.bind({
     context: path.dirname(resourcePath),
     query,
+    cacheable: () => {},
   })(fileContent);
 };
 
@@ -25,7 +26,7 @@ describe('kitno-loader', () => {
     expect(transform(kitnoLoaderSourcePath).toString()).toEqual(kitnoLoaderOutput.toString());
   });
 
-  it('parses test/kitno-loader.coffee', () => {
+  it('parses test/loader.coffee', () => {
     const loaderSourcePath = 'test/example/loader.source.coffee';
     const loaderOutput = fs.readFileSync('test/example/loader.output.coffee');
     expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
@@ -67,8 +68,3 @@ describe('kitno-loader', () => {
     expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
   });
 });
-
-// Example of bad internal namespaces (because already exported?)
-// FakeTable: '/current/app/assets/javascripts/specs/specs/group2/backbone/controls/views/table/cells/string-cell-spec.coffee',
-// Testing: '/current/app/assets/javascripts/specs/specs/group2/base/classes/singleton-spec.coffee',
-// FakeView: '/current/app/assets/javascripts/specs/specs/group3/backbone/controls/views/qtip-button-spec.coffee',
