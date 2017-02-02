@@ -68,10 +68,3 @@ describe('kitno-loader', () => {
     expect(transform(loaderSourcePath).toString()).toEqual(loaderOutput.toString());
   });
 });
-
-/* eslint-disable max-len */
-// Example of bad internal namespaces (because already exported?)
-// FakeTable: '/current/app/assets/javascripts/specs/specs/group2/backbone/controls/views/table/cells/string-cell-spec.coffee',
-// Testing: '/current/app/assets/javascripts/specs/specs/group2/base/classes/singleton-spec.coffee',
-// FakeView: '/current/app/assets/javascripts/specs/specs/group3/backbone/controls/views/qtip-button-spec.coffee',
-/* eslint-enable max-len */
