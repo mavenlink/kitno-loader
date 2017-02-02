@@ -13,7 +13,7 @@ module.exports = function loader(source) {
   const namespaceRegexp = namespace =>
     // for now don't include a capital letter after a period
     // because we haven't dealt with externals (i.e. `Notice.Alert`)
-     `([^\\w\\.])(${namespace})(\\s|\\.[a-z]|\\(|,)`;
+    `([^\\w\\.])(${namespace})(\\s|\\.[a-z]|\\(|,)`;
 
 
   if (!loaderOptions) {
