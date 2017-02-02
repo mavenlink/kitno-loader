@@ -20,9 +20,7 @@ module.exports = function loader(source) {
     loaderOptions = loaderUtils.parseQuery(this.query);
     const mapped = mapper(loaderOptions.kitnoGlobs);
     loaderOptions.namespaces.internal = mapped.internal;
-    // console.log(loaderOptions.namespaces.internal, 'internal first');
   }
-  // console.log(loaderOptions.namespaces.internal, 'internal others');
 
   // Given a dupe `shortName`, use it's corresponding `namespace` and come up with a unique one.
   const namespaceDedupe = (shortName, namespace) => {
@@ -105,16 +103,6 @@ module.exports = function loader(source) {
     }
     replacedSource = newSource.replace(new RegExp(definitionName, 'g'), actualClass);
     newSource = `${replacedSource}module.exports = ${actualClass}\n`;
-  } else {
-    console.log('DAWG!', matches, definitionName); // eslint-disable-line no-console
-    // console.log('===========================');
-    // console.log('===========================');
-    // console.log('===========================');
-    // console.log('OG SOURCE', source)
-    // console.log('NEW SOURCE', newSource)
-    // console.log('===========================');
-    // console.log('===========================');
-    // console.log('===========================');
   }
 
   return newSource;
