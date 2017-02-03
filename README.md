@@ -27,4 +27,4 @@ Given the complexity of globals -> locals problem and the desired simplicity of 
 
 1. All code references in comments should be in enclosed with backticks
 2. Any existing exports of globals should be deleted
-3. Any existing JavaScript initialization code (in script tags) should be its own file. Any dependencies from the Rails environment should be serialized on the `window` via a script tag. 
+3. Any existing JavaScript initialization code (in script tags) should be its own entry file. Any dependencies from the Rails environment should be serialized on the `window` via a script tag. 
