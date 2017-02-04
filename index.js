@@ -18,7 +18,7 @@ module.exports = function loader(source) {
 
   if (!loaderOptions) {
     loaderOptions = loaderUtils.parseQuery(this.query);
-    const mapped = mapper(loaderOptions.kitnoGlobs);
+    const mapped = mapper(loaderOptions);
     loaderOptions.namespaces.internal = mapped.internal;
   }
 
