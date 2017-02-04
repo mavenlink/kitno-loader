@@ -5,6 +5,9 @@ In-memory rewrites of global namespace usages into CommonJS require expressions.
 Useful for migrating a Rails project to CommonJS module bundling.
 Inspired from the original [Killing In The Namespace Of](https://github.com/mavenlink/killing-in-the-namespace-of).
 
+[![npm version](https://img.shields.io/npm/v/kitno-loader.svg?style=flat-square)](https://www.npmjs.com/package/kitno-loader)
+[![npm downloads](https://img.shields.io/npm/dm/brainstem-js.svg?style=flat-square)](https://www.npmjs.com/package/kitno-loader)
+
 ### First Pass
 
 - Specify interesting namespaces to identify
