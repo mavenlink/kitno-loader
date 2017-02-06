@@ -7,6 +7,7 @@ Inspired from the original [Killing In The Namespace Of](https://github.com/mave
 
 [![npm version](https://img.shields.io/npm/v/kitno-loader.svg?style=flat-square)](https://www.npmjs.com/package/kitno-loader)
 [![npm downloads](https://img.shields.io/npm/dm/brainstem-js.svg?style=flat-square)](https://www.npmjs.com/package/kitno-loader)
+[![CircleCI](https://circleci.com/gh/mavenlink/kitno-loader.svg?style=svg)](https://circleci.com/gh/mavenlink/kitno-loader)
 
 ### First Pass
 
